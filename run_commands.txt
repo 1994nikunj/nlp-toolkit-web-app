@@ -1,0 +1,9 @@
+CLONE:
+git clone https://github.com/1994nikunj/nlp-toolkit-web-app
+
+
+Running on VM:
+1. sudo docker build --tag==nlptoolkit_webapp .
+2. sudo docker run -p 9002:9002 -d --name=nlptoolkit_container nlptoolkit_webapp
+3. sudo docker exec -it nlptoolkit_container sh
+4. python3 app.py

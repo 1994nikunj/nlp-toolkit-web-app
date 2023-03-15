@@ -1,0 +1,251 @@
+:root {
+	--color-blue: rgb(0, 150, 135);
+}
+
+body {
+	background-color: rgb(0, 5, 5);
+	font-family: Arial, Helvetica, sans-serif;
+	color: rgb(193, 193, 193);
+	font-size: 11px;
+}
+
+span.header_1 {
+	width: fit-content;
+	text-shadow: 0.25px 0.25px 2px grey;
+	font-size: 40px;
+	margin-bottom: 5px;
+}
+
+span.header_2 {
+	width: 50%;
+	text-shadow: 0.25px 0.25px 2px grey;
+	font-size: 15px;
+	margin-bottom: 5px;
+}
+/* Side-navigation-bar - START -------------------------------------------------------------*/
+.sidenav {
+	height: 100%;
+	width: 160px;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	background-color: rgba(25, 25, 25, 0.7);
+	overflow-x: hidden;
+	padding-top: 20px;
+}
+
+.sidenav a,
+.dropdown-btn {
+	padding: 6px 8px 6px 16px;
+	text-decoration: none;
+	font-size: 15px;
+	color: rgb(193, 193, 193);
+	display: block;
+	border: none;
+	background: none;
+	width: 100%;
+	text-align: left;
+	cursor: pointer;
+	outline: none;
+}
+
+.sidenav a:hover {
+	color: #ffffff;
+	transition: 0.3s;
+	background-color: rgba(105, 105, 105, 0.619);
+	opacity: 1;
+}
+
+.dropdown-btn:hover {
+	background-color: rgba(105, 105, 105, 0.619);
+	color: #ffffff;
+	transition: 0.3s;
+	opacity: 1;
+}
+
+.main {
+	margin-left: 160px;
+	padding: 0px 10px;
+}
+
+.active {
+	background-color: var(--color-blue);
+	color: black;
+	box-shadow: 0px 0px 40px rgb(0, 0, 0);
+}
+
+.dropdown-container {
+	margin-left: 15px;
+	display: none;
+	background-color: #262626;
+}
+
+.dropdown-btn:focus {
+	background-color: var(--color-blue);
+	color: black;
+}
+
+a:focus {
+	background-color: var(--color-blue);
+	color: black;
+	box-shadow: 0px 0px 40px rgb(0, 90, 81);
+}
+/* Side-navigation-bar - END -------------------------------------------------------------*/
+
+/* Table-contents - START ----------------------------------------------------------------*/
+table {
+	width: 100%;
+}
+
+th {
+	border-radius: 2px;
+	color: rgb(193, 193, 193);
+	height: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	text-align: left;
+}
+
+th.sticky {
+	background-color: black;
+	border-bottom: 1.5px solid var(--color-blue);
+	border-top: 1.5px solid var(--color-blue);
+	position: -webkit-sticky;
+	position: sticky;
+	text-align: left;
+	top: 0;
+}
+
+tr:nth-child(odd) {
+	background-image: linear-gradient(
+		to right,
+		rgba(40, 40, 40, 0.4),
+		rgba(50, 50, 50, 0.1)
+	);
+}
+
+tr:nth-child(even) {
+	background-image: linear-gradient(
+		to left,
+		rgba(40, 40, 40, 0.4),
+		rgba(50, 50, 50, 0.1)
+	);
+}
+
+tr:hover {
+	background-color: rgba(70, 70, 70, 0.7);
+	transition: 0.35s;
+	box-shadow: 0px 0px 10px rgb(0, 90, 81);
+}
+
+tr:first-child {
+	background-color: transparent;
+	box-shadow: none;
+}
+
+td {
+	height: 5px;
+	padding: 6px;
+}
+
+td.True,
+td.False{
+	width: 10%;
+}
+
+input.True {
+	background-color: transparent;
+	width: 100%;
+	border: none;
+	cursor: pointer;
+	color: rgb(193, 193, 193);
+	text-shadow: 0.5px 0.5px 8px green;
+}
+
+input.False {
+	background-color: transparent;
+	width: 100%;
+	border: none;
+	cursor: pointer;
+	color: rgb(193, 193, 193);
+	text-shadow: 0.5px 0.5px 8px red;
+}
+
+.True:hover,
+.False:hover {
+	background-color: var(--color-blue);
+	transition: 0.35s;
+	color: black;
+}
+/* Table-contents - END ---------------------------------------------------------------*/
+
+/* Scrollbar - START ---------------------------------------------------------------*/
+html {
+	overflow-y: scroll;
+}
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+::-webkit-scrollbar-track {
+	box-shadow: inset 0 0 5px grey;
+	border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--color-blue);
+	border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: rgba(0, 150, 136, 0.65);
+}
+/* Scrollbar - END ---------------------------------------------------------------*/
+
+/* Arrow Head - START ---------------------------------------------------------------*/
+i {
+	border: solid rgb(193, 193, 193);
+	border-width: 0 3px 3px 0;
+	display: inline-block;
+	padding: 3px;
+	margin-left: 20px;
+	margin-bottom: 2px;
+}
+
+.down {
+	transform: rotate(45deg);
+	-webkit-transform: rotate(45deg);
+}
+/* Arrow Head - END ---------------------------------------------------------------*/
+
+/* Tabs - START ---------------------------------------------------------------*/
+.tablink_2 {
+	background-color: rgba(25, 25, 25, 0.7);
+	color: white;
+	float: left;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	padding: 12px 12px;
+	font-size: 17px;
+	width: 25%;
+}
+
+.tablink_2:hover {
+	background-color: #777;
+}
+
+.tabcontent_2 {
+	color: white;
+	display: none;
+	padding-top: 70px;
+	height: 100%;
+}
+
+.tablink_2:focus {
+	background-color: var(--color-blue);
+	color: black;
+	box-shadow: 0px 0px 10px var(--color-blue);
+}
+/* Tabs - END ---------------------------------------------------------------*/
