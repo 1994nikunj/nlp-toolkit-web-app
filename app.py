@@ -25,7 +25,7 @@ def login():
 
     if user:
         # login successful, redirect to the homepage
-        return redirect("/home")
+        return render_template("home.html")
 
     else:
         # login failed, redirect back to the login page with an error message

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Text Analysis Results</title>
+	<meta content="width=device-width, initial-scale=1" name="viewport"/>
+	<link href="static/css/home.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class='master_container'>
+	<div class="header">
+		NLP Tools: Homepage
+	</div>
+	<div id="input_frame">
+		<label for="input_file">Input File:</label>
+		<input type="text" id="input_file">
+		<input class="browse" id="input_browse_button" type="submit" value="Browse">
+	</div>
+	<div id="stopword_frame">
+		<label for="stopword_file">Stopword File:</label>
+		<input type="text" id="stopword_file">
+		<input class="browse" id="stopword_browse_button" type="submit" value="Browse">
+	</div>
+	<div id="options_frame">
+		<div class="checkbox-wrapper">
+			<input type="checkbox" id="enable_console_prints" name="enable_console_prints" value="false">
+			<label for="enable_console_prints">Enable Console Prints: </label>
+		</div>
+		<div class="checkbox-wrapper">
+			<input type="checkbox" id="save_graph" name="save_graph" value="false">
+			<label for="save_graph">Save Graph: </label>
+		</div>
+		<div class="checkbox-wrapper">
+			<input type="checkbox" id="save_wordcloud" name="save_wordcloud" value="false">
+			<label for="save_wordcloud">Save Wordcloud: </label>
+		</div>
+
+		<input class="generate" id="extract_button" type="submit" value="Extract">
+	</div>
+</div>
+<div class='footer'>NLP Tools &copy; 2023</div>
+</body>
+</html>
