@@ -23,8 +23,7 @@ body {
 	text-shadow: 0.25px 0.25px 5px rgb(100, 100, 100);
 }
 
-input[type=text],
-input[type=password] {
+input {
 	width: 94%;
 	font-size: 11px;
 	padding: 10px 10px;

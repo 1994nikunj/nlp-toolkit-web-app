@@ -2,29 +2,23 @@ import logging
 import logging.handlers
 import sys
 
-import setting
-
-config = setting.log_config()
-
-log_name = setting.APP_NAME
-log_level = setting.LOGGING_LEVEL
-log_format = '%(asctime)s| %(levelname)s: %(message)s |%(module)s[%(lineno)d]'
+from setting import LOG_LEVEL, LOG_FORMAT, LOG_MAX_BYTES, LOG_BACKUP_COUNT, APP_NAME
 
 
 def log_initializer():
     root_logger = logging.getLogger()
-    _file = 'logs/{}.log'.format(log_name.lower())
+    _file = 'logs/{}.log'.format(APP_NAME.lower())
 
     # File Logging: RotatingFileHandler
     file_handler = logging.handlers.RotatingFileHandler(filename=_file,
-                                                        maxBytes=config['max_bytes'],
-                                                        backupCount=config['backup_count'])
-    file_handler.setFormatter(logging.Formatter(log_format))
-    file_handler.setLevel(log_level)
+                                                        maxBytes=LOG_MAX_BYTES,
+                                                        backupCount=LOG_BACKUP_COUNT)
+    file_handler.setFormatter(logging.Formatter(LOG_FORMAT))
+    file_handler.setLevel(LOG_LEVEL)
     root_logger.addHandler(file_handler)
 
     # Console Logging: StreamHandler
     stdout_handler = logging.StreamHandler(stream=sys.stdout)
-    stdout_handler.setFormatter(logging.Formatter(log_format))
-    stdout_handler.setLevel(log_level)
+    stdout_handler.setFormatter(logging.Formatter(LOG_FORMAT))
+    stdout_handler.setLevel(LOG_LEVEL)
     root_logger.addHandler(stdout_handler)

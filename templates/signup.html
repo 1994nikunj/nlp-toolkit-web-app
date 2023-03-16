@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta content="width=device-width, initial-scale=1" name="viewport"/>
+	<Title>Signup</Title>
+	<link href="static/css/login.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+	<div class='master_container'>
+		<div class="header">
+			NLP Tools: Signup
+		</div>
+		<form action="{{ url_for('register') }}" method="POST">
+			{% if error %}<p class="error">{{ error }}</p>{% endif %}
+			<input class='login' name="name" placeholder="Name" type="text">
+			<input class='login' name="email" placeholder="Email" type="email">
+			<input class='login' name="username" placeholder="Username" type="text">
+			<input class='login' name="password" placeholder="Password" type="password">
+			<input class="signup" name="confirm_password" placeholder="Confirm password" type="password">
+			<input class="login" type="submit" value="Signup">
+		</form>
+		<a class="login_link" href="{{ url_for('show_login') }}">Already have an account? Login here</a>
+	</div>
+	<div class='footer'>
+		NLP Tools &copy; 2023
+	</div>
+</body>
+</html>

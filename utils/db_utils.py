@@ -1,41 +1,57 @@
 import logging
 
-import sqlite3 as sql
+import bcrypt
+from pymongo import MongoClient
+
+import setting
 
 logger = logging.getLogger(__name__)
 
+if setting.MONGO_ONLINE:
+    client = MongoClient(setting.MONGO_URI)
+else:
+    client = MongoClient(setting.MONGO_HOST, setting.MONGO_PORT)
 
-def connection_1():
+db = client[setting.MONGO_DATABASE]
+
+
+def create_user(details):
     try:
-        db_conn = sql.connect('static/database/rtp_response_database.db')
-        cur = db_conn.cursor()
-    except Exception as excp:
-        logger.error("Exception Caught! {}".format(excp))
-    else:
-        try:
-            cur.execute("SELECT * FROM tpas_scheduled_poller_tracker")
-            return cur.fetchall()
-        except Exception as excp:
-            logger.error("Exception Caught! {}".format(excp))
-        finally:
-            cur.close()
-            db_conn.close()
+        # Check if user with same username or email already exists
+        existing_user = db.users.find_one(
+            { "$or": [{ "username": details["username"] }, { "email": details["email"] }] })
+
+        if existing_user:
+            err_msg = "User with same username or email already exists"
+            logger.error(err_msg)
+            return err_msg
+
+        # Encode the password using bcrypt
+        password = details["password"].encode("utf-8")
+        hashed = bcrypt.hashpw(password, bcrypt.gensalt())
+
+        # Insert user into "users" collection with the hashed password
+        details["password"] = hashed
+        db.users.insert_one(details)
+
+    except Exception as ex:
+        logger.error(f"Exception Caught! {ex}")
 
 
-def connection_2(request):
+def check_existing_user(details):
     try:
-        db_conn = sql.connect('static/database/credentials_manager.db')
-        cur = db_conn.cursor()
-    except Exception as excp:
-        logger.error("Exception Caught! {}".format(excp))
-    else:
-        try:
-            cur.execute("SELECT * FROM get_uname_pwd WHERE username={} AND password={}".format(
-                "'" + request.form['username'] + "'",
-                "'" + request.form['password'] + "'"))
-            return cur.fetchone()
-        except Exception as excp:
-            logger.error("Exception Caught! {}".format(excp))
-        finally:
-            cur.close()
-            db_conn.close()
+        username = details.get("username")
+        password = details.get("password").encode("utf-8")
+
+        # Find user with matching username in "users" collection
+        user = db.users.find_one({ "username": username })
+
+        if user:
+            # Decode the stored hashed password and check if it matches the entered password
+            hashed = user["password"]
+            if bcrypt.checkpw(password, hashed):
+                user["_id"] = str(user["_id"])  # convert ObjectId to string
+                return user
+
+    except Exception as ex:
+        logger.error(f"Exception Caught! {ex}")
