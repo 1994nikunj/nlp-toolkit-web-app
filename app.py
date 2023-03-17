@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, request, url_for
+from flask import Flask, render_template, request
 
 import setting
 import utils.log_utils as log
@@ -22,15 +22,27 @@ def login():
     }
 
     user = check_existing_user(details)
-
     if user:
-        # login successful, redirect to the homepage
-        return render_template("home.html")
+        _name = str(user['name']).strip().split(' ')[0]
+        return render_template("home.html", user=_name)
 
     else:
         # login failed, redirect back to the login page with an error message
         error = "Invalid username or password"
         return render_template("login.html", error=error)
+
+
+@app.route("/extract", methods=["POST"])
+def extract():
+    input_file = request.files['input_file']
+    stopword_file = request.files['stopword_file']
+    enable_console_prints = request.form.get('enable_console_prints')
+    save_graph = request.form.get('save_graph')
+    save_wordcloud = request.form.get('save_wordcloud')
+
+    # process the files and options here
+
+    return render_template("results.html")
 
 
 @app.route("/login", methods=["GET"])
