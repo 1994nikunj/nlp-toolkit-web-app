@@ -2,3 +2,14 @@ Flask
 Werkzeug
 bcrypt
 pymongo
+matplotlib
+networkx
+numpy
+pandas
+pyLDAvis
+spacy
+gensim
+Pillow
+pyvis
+scipy
+wordcloud

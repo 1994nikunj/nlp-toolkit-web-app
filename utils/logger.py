@@ -2,7 +2,7 @@ import logging
 import logging.handlers
 import sys
 
-from setting import LOG_LEVEL, LOG_FORMAT, LOG_MAX_BYTES, LOG_BACKUP_COUNT, APP_NAME
+from setting import APP_NAME, LOG_BACKUP_COUNT, LOG_FORMAT, LOG_LEVEL, LOG_MAX_BYTES
 
 
 def log_initializer():

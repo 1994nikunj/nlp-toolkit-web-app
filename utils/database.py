@@ -38,18 +38,19 @@ def create_user(details):
 
 def check_existing_user(details):
     try:
-        username = details.get("username")
-        password = details.get("password").encode("utf-8")
+        if details:
+            username = details.get("username")
+            password = details.get("password").encode("utf-8")
 
-        user = db.users.find_one({
-            "username": username
-        })
+            user = db.users.find_one({
+                "username": username
+            })
 
-        if user:
-            hashed = user["password"]
-            if bcrypt.checkpw(password, hashed):
-                user["_id"] = str(user["_id"])
-                return user
+            if user:
+                hashed = user["password"]
+                if bcrypt.checkpw(password, hashed):
+                    user["_id"] = str(user["_id"])
+                    return user
 
     except Exception as ex:
         logger.error(f"Exception Caught! {ex}")

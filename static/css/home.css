@@ -60,7 +60,6 @@ body {
 
 .browse input[type=file]::file-selector-button:hover {
 	transition: .2s ease-in-out;
-	;
 	box-shadow: 100px 0px 100px var(--theme-color);
 }
 
@@ -74,6 +73,29 @@ body {
 	display: inline-block;
 	vertical-align: middle;
 	margin-left: 5px;
+}
+
+/* ################################################################ Text Configurations */
+.text-configuration {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: max-content max-content;
+    grid-gap:5px;
+}
+
+.text-configuration label {
+	vertical-align: middle;
+	padding: 5px;
+}
+
+.text-configuration input[type=number] {
+	width: 30%;
+	font-size: 15px;
+	cursor: pointer;
+	padding: 5px;
+	border-radius: 20px;
+	background-color: var(--base-background);
+	border: 1px dashed var(--base-text-color);
 }
 
 /* ################################################################ Extract button */

@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request
 
 import setting
-import utils.log_utils as log
-from utils.db_utils import check_existing_user, create_user
+import utils.logger as log
+from utils.database import check_existing_user, create_user
 
 log.log_initializer()
 app = Flask(__name__)
@@ -32,17 +32,28 @@ def login():
         return render_template("login.html", error=error)
 
 
-@app.route("/extract", methods=["POST"])
-def extract():
-    input_file = request.files['input_file']
-    stopword_file = request.files['stopword_file']
-    enable_console_prints = request.form.get('enable_console_prints')
-    save_graph = request.form.get('save_graph')
-    save_wordcloud = request.form.get('save_wordcloud')
+@app.route("/results", methods=["POST"])
+def results():
+    data = {
+        # Files
+        'input_file':           str(request.files['input_file'].filename),
+        'stopword_file':        str(request.files['stopword_file'].filename),
 
-    # process the files and options here
+        # Checkboxes
+        'save_graph':           bool(request.form.get('save_graph')),
+        'save_wordcloud':       bool(request.form.get('save_wordcloud')),
+        'save_text_statistics': bool(request.form.get('save_text_statistics')),
 
-    return render_template("results.html")
+        # Inputs
+        'ngram_size':           int(request.form.get('ngram_size')),
+        'number_of_topics':     int(request.form.get('number_of_topics')),
+        'min_word_length':      int(request.form.get('min_word_length')),
+        'word_window':          int(request.form.get('word_window'))
+    }
+
+    print(data)
+
+    return render_template("results.html", result="None")
 
 
 @app.route("/login", methods=["GET"])

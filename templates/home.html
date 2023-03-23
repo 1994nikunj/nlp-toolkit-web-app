@@ -4,7 +4,6 @@
 	<title>Text Analysis Results</title>
 	<meta content="width=device-width, initial-scale=1" name="viewport"/>
 	<link href="static/css/home.css" rel="stylesheet" type="text/css">
-	<!--	<script src="static/js/home.js"></script>-->
 </head>
 <body>
 <div class='master_container'>
@@ -12,33 +11,46 @@
 		{% if user %}Welcome: {{ user }} {% endif %}
 	</div>
 
-	<div class="browse">
-		<label for="input_file">Input File:</label>
-		<input type="file" accept="text/plain" required="required" name="input_file" id="input_file">
-	</div>
-	<div class="browse">
-		<label for="stopword_file">Stopword File:</label>
-		<input type="file" accept="text/plain" required="required" name="stopword_file" id="stopword_file">
-	</div>
+	<form action="{{ url_for('results') }}" method="POST" enctype="multipart/form-data">
+		<div class="browse">
+			<label for="input_file">Input File:</label>
+			<input type="file" accept="text/plain" required="required" name="input_file" id="input_file">
+		</div>
+		<div class="browse">
+			<label for="stopword_file">Stopword File:</label>
+			<input type="file" accept="text/plain" required="required" name="stopword_file" id="stopword_file">
+		</div>
 
-	<div id="options_frame">
 		<div class="checkbox-wrapper">
-			<input type="checkbox" id="enable_console_prints" name="enable_console_prints" value="false">
-			<label for="enable_console_prints">Console Logs</label>
-		</div>
-		<div class="checkbox-wrapper">
-			<input type="checkbox" id="save_graph" name="save_graph" value="false">
+			<input type="checkbox" id="save_graph" name="save_graph" value=1 checked>
 			<label for="save_graph">Save Graph</label>
-		</div>
-		<div class="checkbox-wrapper">
-			<input type="checkbox" id="save_wordcloud" name="save_wordcloud" value="false">
+
+			<input type="checkbox" id="save_wordcloud" name="save_wordcloud" value=1 checked>
 			<label for="save_wordcloud">Save Wordcloud</label>
+
+			<input type="checkbox" id="save_text_statistics" name="save_text_statistics" value=1 checked>
+			<label for="save_text_statistics">Save Text Statistics</label>
+		</div>
+
+		<div class="text-configuration">
+			<label for="ngram_size">N-Gram size</label>
+			<input type="number" id="ngram_size" name="ngram_size" min=1 step=1 value=2>
+
+			<label for="number_of_topics">Number of topics</label>
+			<input type="number" id="number_of_topics" name="number_of_topics" min=1 step=1 value=5>
+
+			<label for="min_word_length">Minimum word length</label>
+			<input type="number" id="min_word_length" name="min_word_length" min=1 step=1 value=2>
+
+			<label for="word_window">Word window</label>
+			<input type="number" id="word_window" name="word_window" min=1 step=1 value=4>
 		</div>
 
 		<div class="extract-button">
 			<input id="extract_button" type="submit" value="Extract">
 		</div>
-	</div>
+
+	</form>
 </div>
 <div class='footer'>NLP Tools &copy; 2023</div>
 </body>
