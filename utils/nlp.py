@@ -20,8 +20,6 @@ warnings.filterwarnings("ignore", category=DeprecationWarning, module='wordcloud
 warnings.filterwarnings("ignore", category=FutureWarning, module='pyLDAvis')
 
 
-# Download button to save the text result.txt and for saving the word cloud and the matrix
-
 class TextAnalysis:
     def __init__(self, data: dict):
         # Files

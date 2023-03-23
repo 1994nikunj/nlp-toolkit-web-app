@@ -1,0 +1,2 @@
+# Download button to save the text result/word-cloud/matrix on results page
+# Read raw input data in app.py and seperate variable for filename to pass to nlp.py
