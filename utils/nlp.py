@@ -23,74 +23,59 @@ warnings.filterwarnings("ignore", category=FutureWarning, module='pyLDAvis')
 class TextAnalysis:
     def __init__(self, data: dict):
         # Files
-        self.input_filename = data.get('input_file')
-        self.input_raw = data.get('input_raw')
-        self.stopword_filename = data.get('stopword_file')
-        self.stopword_raw = data.get('stopword_raw')
+        self.input_filename: str = data.get('input_file')
+        self.input_raw: list = data.get('input_raw').split()
+        self.stopword_filename: str = data.get('stopword_file')
+        self.stopword_raw: list = data.get('stopword_raw').split()
+        self.additional_stopwords: list = data.get('additional_stopwords').split()
+        self.stopword_raw.extend(self.additional_stopwords)
 
         # Checkboxes
-        self.save_graph = data.get('save_graph')
-        self.save_wordcloud = data.get('save_wordcloud')
-        self.save_text_statistics = data.get('save_text_statistics')
+        self.save_graph: bool = data.get('save_graph')
+        self.save_wordcloud: bool = data.get('save_wordcloud')
+        self.save_text_statistics: bool = data.get('save_text_statistics')
 
         # Inputs
-        self.n_size = data.get('ngram_size')
-        self.num_topics = data.get('ngram_size')
-        self.word_window = data.get('word_window')
-        self.min_word_length = data.get('min_word_length')
+        self.n_size: int = data.get('ngram_size')
+        self.num_topics: int = data.get('ngram_size')
+        self.word_window: int = data.get('word_window')
+        self.min_word_length: int = data.get('min_word_length')
+        self.num_similar: int = data.get('n_sim_element')
 
-        self.final_output = []
-
-        self.raw_words = []
-        self.stop_words = []
-        self.filtered_words = []
-        self.vocabulary = set()
         self.ngrams = []
         self.top_comm = []
+        self.raw_words = []
+        self.stop_words = []
+        self.final_output = []
+        self.vocabulary = set()
+        self.filtered_words = []
 
-        self.wordcloud = None
         self.lda = None
-
-        self.text_entropy = None
+        self.wordcloud = None
+        self.top_ngrams = None
         self.total_words = None
+        self.text_entropy = None
         self.unique_words = None
 
-        self.num_similar = 10
-        self.top_ngrams = None
-
-        # updating the stopword list
-        self.additional_stopwords = ['engineering', 'data', 'engineers', 'digital', 'today', 'use', 'used']
-
-        if self.save_graph:
-            self._visualize_adjacency_matrix()
+    def process_data(self) -> None:
+        self.final_output.append(f"This is an analysis for: {self.input_filename}")
+        # if self.save_graph:
+        #     self._visualize_adjacency_matrix()
 
         self._text_cleaning(self.raw_words)
-
         self._generate_ngrams()
-
         self._calculate_frequency()
-
         self._print_most_frequent_ngrams()
 
-        if self.save_graph:
-            self._generate_wordcloud()
+        # if self.save_graph:
+        #     self._generate_wordcloud()
 
         self._topic_modeling()
-
         self._calculate_stats()
-
         self._get_text_statistics()
 
         if self.save_text_statistics:
             self._write_to_output_file()
-
-    def _process_input(self) -> None:
-        self.final_output.append(f"This is an analysis for: {self.input_filename}")
-
-        self.raw_words = self.input_raw.split()
-
-        self.stop_words = read_input(file=self.stopword_filename)
-        self.stop_words.extend(self.additional_stopwords)
 
     def _visualize_adjacency_matrix(self) -> None:
         adj_matrix = self._co_occurrence()
