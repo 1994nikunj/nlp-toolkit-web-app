@@ -24,7 +24,9 @@ class TextAnalysis:
     def __init__(self, data: dict):
         # Files
         self.input_filename = data.get('input_file')
+        self.input_raw = data.get('input_raw')
         self.stopword_filename = data.get('stopword_file')
+        self.stopword_raw = data.get('stopword_raw')
 
         # Checkboxes
         self.save_graph = data.get('save_graph')
@@ -82,9 +84,11 @@ class TextAnalysis:
         if self.save_text_statistics:
             self._write_to_output_file()
 
-    def _read_input_data(self) -> None:
+    def _process_input(self) -> None:
         self.final_output.append(f"This is an analysis for: {self.input_filename}")
-        self.raw_words = read_input(file=self.input_filename)
+
+        self.raw_words = self.input_raw.split()
+
         self.stop_words = read_input(file=self.stopword_filename)
         self.stop_words.extend(self.additional_stopwords)
 

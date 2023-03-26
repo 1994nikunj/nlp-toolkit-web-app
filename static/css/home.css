@@ -63,6 +63,38 @@ body {
 	box-shadow: 100px 0px 100px var(--theme-color);
 }
 
+/* ################################################################ Input Tags */
+#tags {
+  width: 97%;
+  height: 40px;
+  padding: 10px;
+  border-radius: 20px;
+  font-size: 13px;
+}
+
+.bootstrap-tagsinput {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+  margin-top: 5px;
+  border: 1px dashed var(--base-text-color);
+  border-radius: 20px;
+}
+
+.bootstrap-tagsinput .tag {
+  background-color:  var(--theme-color);
+  padding: 5px 10px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+.bootstrap-tagsinput .tag:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
 /* ################################################################ Checkbox */
 .checkbox-wrapper {
 	display: block;

@@ -36,8 +36,10 @@ def login():
 def results():
     data = {
         # Files
-        'input_file':           str(request.files['input_file'].filename),
+        'input_file_name':      str(request.files['input_file'].filename),
+        'input_raw':            str(request.files.get('input_file').read()),
         'stopword_file':        str(request.files['stopword_file'].filename),
+        'stopword_raw':         str(request.files.get('stopword_file').read()),
 
         # Checkboxes
         'save_graph':           bool(request.form.get('save_graph')),

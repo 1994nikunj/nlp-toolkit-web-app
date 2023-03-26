@@ -3,10 +3,25 @@
 <head>
 	<title>Text Analysis Results</title>
 	<meta content="width=device-width, initial-scale=1" name="viewport"/>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css"
+		  rel="stylesheet">
 	<link href="static/css/home.css" rel="stylesheet" type="text/css">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
 </head>
 <body>
 <div class='master_container'>
+	<script>
+    $(document).ready(function () {
+        $('#tags').tagsinput({
+            confirmKeys: [13, 32, 188], // Enter, space, comma
+            trimValue: true
+        });
+    });
+
+
+	</script>
 	<div class="header">
 		{% if user %}Welcome: {{ user }} {% endif %}
 	</div>
@@ -20,6 +35,10 @@
 			<label for="stopword_file">Stopword File:</label>
 			<input type="file" accept="text/plain" required="required" name="stopword_file" id="stopword_file">
 		</div>
+
+		<label for="input_file">Additional Stopwords:</label>
+		<input type="text" id="additional_stopwords" name="additional_stopwords" data-role="tagsinput"
+			   placeholder="Add stopwords" value="data, digital, today, use">
 
 		<div class="checkbox-wrapper">
 			<input type="checkbox" id="save_graph" name="save_graph" value=1 checked>
