@@ -1,17 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Text Analysis Results</title>
-	<meta content="width=device-width, initial-scale=1" name="viewport"/>
-	<link href="static/css/home.css" rel="stylesheet" type="text/css">
+    <title>Text Analysis Results</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <link href="static/css/results.css" rel="stylesheet" type="text/css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css"
+          rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
 </head>
 <body>
 <div class='master_container'>
-	<div class="header">
-		NLP Tools: Results
-	</div>
+    <div class="header">
+        NLP Tools: Results
+    </div>
+    <div class="date-time">
+        {% if date_time %}
+        <p>Current Date-Time: {{ date_time }} </p>
+        {% endif %}
+    </div>
 
-	{% if result %}{{ result }} {% endif %}
+    {% if error %}<p class=error><strong>Error:</strong> {{ error }} {% endif %}
+
+    {% if results %}
+
+    <div class="numeric-results">
+        <label for="analysis_for">Analysis for: </label>
+        <input type="text" id="analysis_for" name="analysis_for" value="{{ results.analysis_for }}" readonly>
+
+        <label for="total_words">Total words: </label>
+        <input type="text" id="total_words" name="total_words" value="{{ results.total_words }}" readonly>
+
+        <label for="unique_words">Unique words: </label>
+        <input type="text" id="unique_words" name="unique_words" value="{{ results.unique_words }}" readonly>
+
+        <label for="text_entropy">Text entropy: </label>
+        <input type="text" id="text_entropy" name="text_entropy" value="{{ results.text_entropy }}" readonly>
+    </div>
+
+    <label for="top_ngrams">Top n-grams:</label>
+    <input type="text" id="top_ngrams" name="top_ngrams" data-role="tagsinput" placeholder="Top n-grams"
+           value="{{ results.top_ngrams }}">
+
+    <div class="top-topics">
+        <label>Top topics: </label>
+        <li>
+            {% for topic in results.top_topics %}
+            <ol>{{ topic }}</ol>
+            {% endfor %}
+        </li>
+    </div>
+
+    {% endif %}
 </div>
 <div class='footer'>NLP Tools &copy; 2023</div>
 </body>

@@ -2,23 +2,23 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 
 <head>
-	<title>Text Analysis Results</title>
-	<meta content="width=device-width, initial-scale=1" name="viewport"/>
-	<link
-		href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/3.3.7/css/bootstrap.min.css"
-		rel="stylesheet">
-	<link
-		href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css"
-		rel="stylesheet">
-	<link href="static/css/home.css" rel="stylesheet" type="text/css">
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
+    <title>Text Analysis Results</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/3.3.7/css/bootstrap.min.css"
+            rel="stylesheet">
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css"
+            rel="stylesheet">
+    <link href="static/css/home.css" rel="stylesheet" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
 </head>
 
 <body>
-	<div class='master_container'>
-		<script>
+<div class='master_container'>
+    <script>
 			$(document).ready(function () {
 				$('#tags').tagsinput({
 					confirmKeys: [
@@ -29,80 +29,71 @@
 					trimValue: true
 				});
 			});
-		</script>
 
-		<div class="header">
-			{% if user %}Welcome: {{ user }} {% endif %}
-		</div>
 
-		<div class="date-time">
-			{% if date_time %}
-			<p>Current Date-Time: {{ date_time }} </p>
-			{% endif %}
-		</div>
+    </script>
 
-		<form action="{{ url_for('results') }}" method="POST"
-			enctype="multipart/form-data">
-			<div class="browse">
-				<label for="input_file">Input File:</label>
-				<input type="file" accept="text/plain" required="required"
-					name="input_file" id="input_file">
-			</div>
-			<div class="browse">
-				<label for="stopword_file">Stopword File:</label>
-				<input type="file" accept="text/plain" required="required"
-					name="stopword_file" id="stopword_file">
-			</div>
+    <div class="header">
+        {% if user %}Welcome: {{ user }} {% endif %}
+    </div>
 
-			<label for="input_file">Additional Stopwords:</label>
-			<input type="text" id="additional_stopwords" name="additional_stopwords"
-				data-role="tagsinput"
-				placeholder="Add stopwords" value="data, digital, today, use">
+    <div class="date-time">
+        {% if date_time %}
+        <p>Current Date-Time: {{ date_time }} </p>
+        {% endif %}
+    </div>
 
-			<div class="checkbox-wrapper">
-				<input type="checkbox" id="save_graph" name="save_graph" value=1 checked>
-				<label for="save_graph">Save Graph</label>
+    <form action="{{ url_for('results') }}" method="POST" enctype="multipart/form-data">
+        <div class="browse">
+            <label for="input_file">Input File:</label>
+            <input type="file" accept="text/plain" required="required" name="input_file" id="input_file">
+        </div>
+        <div class="browse">
+            <label for="stopword_file">Stopword File:</label>
+            <input type="file" accept="text/plain" required="required" name="stopword_file" id="stopword_file">
+        </div>
 
-				<input type="checkbox" id="save_wordcloud" name="save_wordcloud" value=1
-					checked>
-				<label for="save_wordcloud">Save Wordcloud</label>
+        <label for="additional_stopwords">Additional Stopwords:</label>
+        <input type="text" id="additional_stopwords" name="additional_stopwords" data-role="tagsinput"
+               placeholder="Add stopwords" value="data, digital, today, use">
 
-				<input type="checkbox" id="save_text_statistics"
-					name="save_text_statistics" value=1 checked>
-				<label for="save_text_statistics">Save Text Statistics</label>
-			</div>
+        <div class="checkbox-wrapper">
+            <input type="checkbox" id="save_graph" name="save_graph" value=1 checked>
+            <label for="save_graph">Save Graph</label>
 
-			<div class="text-configuration">
-				<label for="ngram_size">"n" for the n-grams generated: </label>
-				<input type="number" id="ngram_size" name="ngram_size" min=1 step=1
-					value=2>
+            <input type="checkbox" id="save_wordcloud" name="save_wordcloud" value=1 checked>
+            <label for="save_wordcloud">Save Wordcloud</label>
 
-				<label for="number_of_topics">Number of topics to be extracted: </label>
-				<input type="number" id="number_of_topics" name="number_of_topics" min=1
-					step=1 value=5>
+            <input type="checkbox" id="save_text_statistics" name="save_text_statistics" value=1 checked>
+            <label for="save_text_statistics">Save Text Statistics</label>
+        </div>
 
-				<label for="min_word_length">Minimum word length: </label>
-				<input type="number" id="min_word_length" name="min_word_length" min=1
-					step=1 value=2>
+        <div class="text-configuration">
+            <label for="ngram_size">"n" for the n-grams generated: </label>
+            <input type="number" id="ngram_size" name="ngram_size" min=1 step=1 value=2>
 
-				<label for="n_sim_element">Number of elements to be similar: </label>
-				<input type="number" id="n_sim_element" name="n_sim_element" min=1 step=1
-					value=2>
+            <label for="number_of_topics">Number of topics to be extracted: </label>
+            <input type="number" id="number_of_topics" name="number_of_topics" min=1 step=1 value=5>
 
-				<label for="word_window">Window of separation between words: </label>
-				<input type="number" id="word_window" name="word_window" min=1 step=1
-					value=4>
-			</div>
+            <label for="min_word_length">Minimum word length: </label>
+            <input type="number" id="min_word_length" name="min_word_length" min=1 step=1 value=2>
 
-			<div class="extract-button">
-				<input id="extract_button" type="submit" value="Extract">
-			</div>
+            <label for="n_sim_element">Number of elements to be similar: </label>
+            <input type="number" id="n_sim_element" name="n_sim_element" min=1 step=1 value=5>
 
-		</form>
-	</div>
+            <label for="word_window">Window of separation between words: </label>
+            <input type="number" id="word_window" name="word_window" min=1 step=1 value=4>
+        </div>
 
-	<div class='footer'>NLP Tools &copy; 2023</div>
+        <div class="extract-button">
+            <input id="extract_button" type="submit" value="Extract">
+        </div>
 
-	</body>
-	
+    </form>
+</div>
+
+<div class='footer'>NLP Tools &copy; 2023</div>
+
+</body>
+
 </html>

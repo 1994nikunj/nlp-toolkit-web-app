@@ -24,11 +24,11 @@ class TextAnalysis:
     def __init__(self, data: dict):
         # Files
         self.input_filename: str = data.get('input_file')
-        self.input_raw: list = data.get('input_raw').split()
+        self.raw_words: list = data.get('input_raw')
         self.stopword_filename: str = data.get('stopword_file')
-        self.stopword_raw: list = data.get('stopword_raw').split()
-        self.additional_stopwords: list = data.get('additional_stopwords').split()
-        self.stopword_raw.extend(self.additional_stopwords)
+        self.stop_words: list = data.get('stopword_raw')
+        self.additional_stopwords: list = data.get('additional_stopwords')
+        self.stop_words.extend(self.additional_stopwords)
 
         # Checkboxes
         self.save_graph: bool = data.get('save_graph')
@@ -37,28 +37,32 @@ class TextAnalysis:
 
         # Inputs
         self.n_size: int = data.get('ngram_size')
-        self.num_topics: int = data.get('ngram_size')
+        self.num_topics: int = data.get('number_of_topics')
         self.word_window: int = data.get('word_window')
         self.min_word_length: int = data.get('min_word_length')
         self.num_similar: int = data.get('n_sim_element')
 
-        self.ngrams = []
-        self.top_comm = []
-        self.raw_words = []
-        self.stop_words = []
-        self.final_output = []
-        self.vocabulary = set()
-        self.filtered_words = []
-
         self.lda = None
         self.wordcloud = None
         self.top_ngrams = None
-        self.total_words = None
-        self.text_entropy = None
-        self.unique_words = None
+        self.ngrams: list = []
+        self.top_comm: list = []
+        self.final_output: list = []
+        self.vocabulary: set = set()
+        self.filtered_words: list = []
 
-    def process_data(self) -> None:
+        self.result_return: dict = {
+            'total_words': 0,
+            'unique_words': 0,
+            'text_entropy': 0.0,
+            'top_ngrams': [],
+            'top_topics': [],
+            'analysis_for': ' '.join(self.input_filename.replace('.txt', '').split('_')),
+        }
+
+    def run_analysis(self) -> dict:
         self.final_output.append(f"This is an analysis for: {self.input_filename}")
+
         # if self.save_graph:
         #     self._visualize_adjacency_matrix()
 
@@ -74,8 +78,10 @@ class TextAnalysis:
         self._calculate_stats()
         self._get_text_statistics()
 
-        if self.save_text_statistics:
-            self._write_to_output_file()
+        # if self.save_text_statistics:
+        #     self._write_to_output_file()
+
+        return self.result_return
 
     def _visualize_adjacency_matrix(self) -> None:
         adj_matrix = self._co_occurrence()
@@ -111,6 +117,7 @@ class TextAnalysis:
 
     def _calculate_frequency(self) -> None:
         self.top_comm = [ngram for ngram, count in Counter(self.ngrams).most_common(self.num_similar)]
+        self.result_return['top_ngrams'] = ','.join(self.top_comm)
 
     def _print_most_frequent_ngrams(self) -> None:
         self.top_ngrams = ["{}. {}".format(_id + 1, ngram) for _id, ngram in enumerate(self.top_comm)]
@@ -149,6 +156,7 @@ class TextAnalysis:
         for i, topic in enumerate(self.lda.show_topics(num_topics=self.num_topics)):
             top_words = self.lda.show_topics(self.num_topics)[i][1]
             self.final_output.append(f"\tTopic {i + 1}: {top_words}")
+            self.result_return['top_topics'].append(f"Topic {i + 1}: {top_words}")
 
         lda_display = pyLDAvis.gensim.prepare(self.lda, corpus, dictionary, sort_topics=False)
 
@@ -182,27 +190,19 @@ class TextAnalysis:
     def _calculate_stats(self) -> None:
         words_counter = Counter(self.filtered_words)
         word_freq_lst = list(words_counter.values())
-        self.text_entropy = entropy(word_freq_lst, base=10)
 
-        self.total_words = len(self.filtered_words)
-        self.unique_words = len(self.vocabulary)
-        self.text_entropy = round(log(self.text_entropy, 10), 2)
+        self.result_return['text_entropy'] = round(log(entropy(word_freq_lst, base=10), 10), 2)
+        self.result_return['total_words'] = len(self.filtered_words)
+        self.result_return['unique_words'] = len(self.vocabulary)
 
     def _get_text_statistics(self) -> None:
         message = '\nThe following are some basic statistics on the input text:' \
-                  f'\n\tTotal Words: {self.total_words}' \
-                  f'\n\tTotal Unique words: {self.unique_words}' \
-                  f'\n\tTotal Text Entropy: {self.text_entropy}'
+                  f'\n\tTotal Words: {self.result_return["total_words"]}' \
+                  f'\n\tTotal Unique words: {self.result_return["unique_words"]}' \
+                  f'\n\tTotal Text Entropy: {self.result_return["text_entropy"]}'
         self.final_output.append(message)
 
     def _write_to_output_file(self):
         output_file = f'{os.getcwd()}\\output_{self.input_filename}'
         with open(output_file, 'w') as fr:
             fr.write('\n'.join(self.final_output))
-
-
-def read_input(file) -> list[str]:
-    file_name = file if file.lower().endswith('.txt') else file + '.txt'
-
-    with open(file=file_name, mode='r', encoding='utf8') as fr1:
-        return [word.strip() for word in fr1 if word]
